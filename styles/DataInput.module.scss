@@ -1,0 +1,61 @@
+.header {
+  margin: 2rem 0;
+}
+
+.transaction {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.selectId {
+  display: flex;
+  flex-direction: column;
+}
+
+.select {
+  min-width: 200px;
+  margin: 0.5rem 0;
+}
+
+.button {
+  background: #004e7c;
+}
+
+.removeButton {
+  background: rgb(184, 0, 0);
+}
+
+.sum {
+  display: flex;
+  flex-direction: column;
+
+  p {
+    margin: 0.75rem 0;
+    font-size: 1.1rem;
+    color: #004e7c;
+    text-align: right;
+
+    &:nth-child(3) {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.table {
+  height: 400px;
+}
+
+.numberInput {
+  outline: none;
+  font-family: "Poppins";
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.label {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: rgb(88, 88, 88);
+}
