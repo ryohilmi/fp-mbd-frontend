@@ -13,4 +13,20 @@ a {
 
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+}
+
+main {
+  margin-left: 250px;
+  padding: 2rem;
+  min-height: 150vh;
+
+  h1 {
+    font-size: 2.5rem;
+  }
 }
