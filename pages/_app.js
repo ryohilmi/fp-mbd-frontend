@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material/styles";
-import "../styles/globals.css";
+import "../styles/globals.scss";
 
 const theme = createTheme({
   typography: {
