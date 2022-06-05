@@ -16,11 +16,26 @@ import {
   TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useForm, Controller } from "react-hook-form";
 
 export default function Home() {
   const [rows, setRows] = useState([]);
   const [total, setTotal] = useState({ barang: 0, harga: 0 });
   const [open, setOpen] = useState(false);
+
+  const { register, control, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    let res = JSON.parse(data.select);
+    res.jumlah = Number(data.jumlah);
+    res.total = res.jumlah * res.harga;
+
+    let newRows = [...rows];
+    newRows.push(res);
+
+    console.log(res);
+
+    setRows(newRows);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -123,18 +138,16 @@ export default function Home() {
     },
   ];
 
-  useEffect(() => {
-    setRows(initialRows);
-  }, []);
+  // useEffect(() => {
+  //   setRows(initialRows);
+  // }, []);
 
   useEffect(() => {
     let totalBarang = rows.reduce((prev, curr) => {
-      console.log(prev, curr.jumlah);
       return prev + curr.jumlah;
     }, 0);
 
     let totalHarga = rows.reduce((prev, curr) => {
-      console.log(prev, curr.total);
       return prev + curr.total;
     }, 0);
 
@@ -200,39 +213,76 @@ export default function Home() {
         </div>
 
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Tambah Produk</DialogTitle>
-          <DialogContent>
-            <FormControl className={styles.select} size="small">
-              <InputLabel id="demo-simple-select-label">Barang</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                // value={age}
-                label="Age"
-                // onChange={handleChange}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-              <label htmlFor="jumlah-barang" className={styles.label}>
-                Jumlah
-              </label>
-              <input
-                type="number"
-                name=""
-                id="jumlah-barang"
-                className={styles.numberInput}
-              />
-              <p style={{ fontSize: "1.2rem", margin: "0.75rem 0" }}>
-                Total Harga: Rp. 50.000
-              </p>
-            </FormControl>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Batalkan</Button>
-            <Button onClick={handleClose}>Tambah</Button>
-          </DialogActions>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <DialogTitle>Tambah Produk</DialogTitle>
+            <DialogContent>
+              <FormControl className={styles.select} size="small">
+                <InputLabel id="demo-simple-select-label">Barang</InputLabel>
+                <Controller
+                  name="select"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      // value={age}
+                      label="Age"
+                      // onChange={handleChange}
+                      {...field}
+                    >
+                      <MenuItem
+                        value='{
+                        "id": 2,
+                        "namaBarang": "Kecap Bango",
+                        "harga": 15000
+                        }'
+                      >
+                        Kecap Bango - Rp. 15.000
+                      </MenuItem>
+                      <MenuItem
+                        value='{
+                        "id": 3,
+                        "namaBarang": "Ayam Bango",
+                        "harga": 25000
+                        }'
+                      >
+                        Ayam Bango - Rp. 25.000
+                      </MenuItem>
+                      <MenuItem
+                        value='{
+                        "id": 5,
+                        "namaBarang": "Sabun Bango",
+                        "harga": 10000
+                        }'
+                      >
+                        Sabun Bango - Rp. 10.000
+                      </MenuItem>
+                    </Select>
+                  )}
+                />
+
+                <label htmlFor="jumlah-barang" className={styles.label}>
+                  Jumlah
+                </label>
+                <input
+                  type="number"
+                  name=""
+                  id="jumlah-barang"
+                  className={styles.numberInput}
+                  {...register("jumlah")}
+                />
+                <p style={{ fontSize: "1.2rem", margin: "0.75rem 0" }}>
+                  Total Harga: Rp. 50.000
+                </p>
+              </FormControl>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Batalkan</Button>
+              <Button type="submit" onClick={handleClose}>
+                Tambah
+              </Button>
+            </DialogActions>
+          </form>
         </Dialog>
       </main>
     </div>
