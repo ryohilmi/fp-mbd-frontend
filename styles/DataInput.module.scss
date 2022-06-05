@@ -44,12 +44,12 @@
 }
 
 .table {
-  height: 400px;
+  height: 480px;
 }
 
 .numberInput {
   outline: none;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   font-size: 1.2rem;
   color: rgba(0, 0, 0, 0.87);
 }
@@ -58,4 +58,20 @@
   margin-top: 1rem;
   margin-bottom: 0.5rem;
   color: rgb(88, 88, 88);
+}
+
+.warningRow {
+  color: white;
+  background: rgb(201, 30, 30);
+
+  &:hover {
+    background: rgb(179, 27, 27) !important;
+  }
+}
+
+.filter {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
 }
