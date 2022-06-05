@@ -11,19 +11,52 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
-  TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useForm, Controller } from "react-hook-form";
+import useSWR from "swr";
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function BuatPenjualan() {
+  const { data: customers } = useSWR("/api/customer", fetcher);
+  const { data: cashiers } = useSWR("/api/karyawan", fetcher);
+  const { data: items } = useSWR("/api/item", fetcher);
+
+  const [customer, setCustomer] = useState(null);
+  const [cashier, setCashier] = useState(null);
+
   const [rows, setRows] = useState([]);
   const [total, setTotal] = useState({ barang: 0, harga: 0 });
   const [open, setOpen] = useState(false);
 
   const { register, control, handleSubmit } = useForm();
+
+  const simpanTransaksi = () => {
+    let buyItems = rows.map((row) => {
+      return { id: row.id, total: row.jumlah };
+    });
+
+    const data = {
+      customer_id: customer,
+      karyawan_id: cashier,
+      detail: buyItems,
+    };
+
+    fetch("/api/transaksi", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setOpen(false);
+      });
+  };
+
   const onSubmit = (data) => {
     let res = JSON.parse(data.select);
     res.jumlah = Number(data.jumlah);
@@ -31,8 +64,6 @@ export default function BuatPenjualan() {
 
     let newRows = [...rows];
     newRows.push(res);
-
-    console.log(res);
 
     setRows(newRows);
   };
@@ -107,41 +138,6 @@ export default function BuatPenjualan() {
     },
   ];
 
-  const initialRows = [
-    {
-      id: 2,
-      namaBarang: "Kecap Bango",
-      harga: 15000,
-      jumlah: 4,
-      total: 60000,
-    },
-    {
-      id: 3,
-      namaBarang: "Kecap Bango",
-      harga: 15000,
-      jumlah: 4,
-      total: 60000,
-    },
-    {
-      id: 4,
-      namaBarang: "Kecap Bango",
-      harga: 15000,
-      jumlah: 4,
-      total: 60000,
-    },
-    {
-      id: 5,
-      namaBarang: "Kecap Bango",
-      harga: 15000,
-      jumlah: 4,
-      total: 60000,
-    },
-  ];
-
-  // useEffect(() => {
-  //   setRows(initialRows);
-  // }, []);
-
   useEffect(() => {
     let totalBarang = rows.reduce((prev, curr) => {
       return prev + curr.jumlah;
@@ -164,17 +160,20 @@ export default function BuatPenjualan() {
           <div className={styles.transaction}>
             <div className={styles.selectId}>
               <FormControl className={styles.select} size="small">
-                <InputLabel id="demo-simple-select-label">Pembeli</InputLabel>
+                <InputLabel id="demo-simple-select-label">Customer</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  // value={age}
-                  label="Age"
-                  // onChange={handleChange}
+                  value={customer}
+                  label="Customer"
+                  onChange={(e) => setCustomer(e.target.value)}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {customers &&
+                    customers.map((customer) => (
+                      <MenuItem value={customer.cust_id} key={customer.cust_id}>
+                        {customer.cust_nama}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
               <FormControl className={styles.select} size="small">
@@ -182,18 +181,25 @@ export default function BuatPenjualan() {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  // value={age}
-                  label="Age"
-                  // onChange={handleChange}
+                  value={cashier}
+                  label="Customer"
+                  onChange={(e) => setCashier(e.target.value)}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {cashiers &&
+                    cashiers.map((cashier) => (
+                      <MenuItem value={cashier.kar_id} key={cashier.kar_id}>
+                        {cashier.kar_nama}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </div>
             <div className={styles.sum}>
-              <Button variant="contained" className={styles.button}>
+              <Button
+                variant="contained"
+                className={styles.button}
+                onClick={simpanTransaksi}
+              >
                 Simpan Transaksi
               </Button>
               <p>Banyak Barang: {total.barang}</p>
@@ -225,38 +231,41 @@ export default function BuatPenjualan() {
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      // value={age}
                       label="Age"
-                      // onChange={handleChange}
                       {...field}
                     >
-                      <MenuItem
-                        value='{
-                        "id": 2,
-                        "namaBarang": "Kecap Bango",
-                        "harga": 15000
-                        }'
-                      >
-                        Kecap Bango - Rp. 15.000
-                      </MenuItem>
-                      <MenuItem
-                        value='{
-                        "id": 3,
-                        "namaBarang": "Ayam Bango",
-                        "harga": 25000
-                        }'
-                      >
-                        Ayam Bango - Rp. 25.000
-                      </MenuItem>
-                      <MenuItem
-                        value='{
-                        "id": 5,
-                        "namaBarang": "Sabun Bango",
-                        "harga": 10000
-                        }'
-                      >
-                        Sabun Bango - Rp. 10.000
-                      </MenuItem>
+                      {items &&
+                        items
+                          .sort((a, b) => {
+                            const nameA = a.it_nama.toUpperCase();
+                            const nameB = b.it_nama.toUpperCase();
+                            if (nameA < nameB) {
+                              return -1;
+                            }
+                            if (nameA > nameB) {
+                              return 1;
+                            }
+
+                            return 0;
+                          })
+                          .map((item) => {
+                            const value = {
+                              id: item.it_id,
+                              namaBarang: item.it_nama,
+                              harga: item.it_harga_jual,
+                              stok: item.it_jumlah,
+                            };
+                            return (
+                              <MenuItem
+                                value={JSON.stringify(value)}
+                                key={item}
+                              >
+                                {`${item.it_nama} - ${currencyFormatter(
+                                  item.it_harga_jual
+                                )}`}
+                              </MenuItem>
+                            );
+                          })}
                     </Select>
                   )}
                 />
@@ -268,12 +277,10 @@ export default function BuatPenjualan() {
                   type="number"
                   name=""
                   id="jumlah-barang"
+                  min="1"
                   className={styles.numberInput}
                   {...register("jumlah")}
                 />
-                <p style={{ fontSize: "1.2rem", margin: "0.75rem 0" }}>
-                  Total Harga: Rp. 50.000
-                </p>
               </FormControl>
             </DialogContent>
             <DialogActions>
