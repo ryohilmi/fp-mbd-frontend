@@ -18,7 +18,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useForm, Controller } from "react-hook-form";
 
-export default function Home() {
+export default function BuatPenjualan() {
   const [rows, setRows] = useState([]);
   const [total, setTotal] = useState({ barang: 0, harga: 0 });
   const [open, setOpen] = useState(false);
