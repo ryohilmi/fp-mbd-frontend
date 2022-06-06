@@ -52,9 +52,11 @@ export const nestedMenus = [
     menus: [
       {
         text: "Customer",
+        link: "/customer"
       },
       {
         text: "Karyawan",
+        link: "/karyawan"
       },
     ],
   },
