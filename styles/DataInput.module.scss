@@ -49,7 +49,7 @@
 
 .numberInput {
   outline: none;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-size: 1.2rem;
   color: rgba(0, 0, 0, 0.87);
 }
@@ -74,4 +74,10 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
+}
+
+.between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
