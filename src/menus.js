@@ -16,10 +16,6 @@ export const nestedMenus = [
         text: "Kategori Barang",
         link: "/kategori-barang",
       },
-      {
-        text: "Lihat Stok",
-        link: "/lihat-stok",
-      },
     ],
   },
   {
