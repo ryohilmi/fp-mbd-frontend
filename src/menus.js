@@ -58,6 +58,10 @@ export const nestedMenus = [
         text: "Karyawan",
         link: "/karyawan"
       },
+      {
+        text: "Supplier",
+        link: "/supplier"
+      },
     ],
   },
 ];
