@@ -14,6 +14,8 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
+import ActiveLink from "./ActiveLink";
+import { useRouter } from "next/router";
 
 const drawerWidth = 250;
 
@@ -24,12 +26,21 @@ const menus = [
 
 export default function Sidebar() {
   const [open, setOpen] = React.useState(nestedMenus.map(() => false));
+  const router = useRouter();
 
   const openMenu = (index) => {
     const newOpen = { ...open };
     newOpen[index] = !open[index];
     setOpen(newOpen);
   };
+  console.log(router.asPath);
+
+  React.useEffect(() => {
+    console.log(router.asPath);
+    if (router.asPath) {
+      console.log(router.asPath);
+    }
+  });
 
   return (
     <Drawer
@@ -46,24 +57,26 @@ export default function Sidebar() {
       variant="permanent"
       anchor="left"
     >
-      <Box
-        sx={{
-          display: "flex",
-          padding: "0.5rem 1rem",
-          alignItems: "center",
-        }}
-      >
-        <Image src="/images/logo.png" alt="logo" width={60} height={60} />
-        <Typography
-          fontWeight={600}
+      <ActiveLink href="/">
+        <Box
           sx={{
-            fontSize: "1.5rem",
-            marginLeft: "1.5rem",
+            display: "flex",
+            padding: "0.5rem 1rem",
+            alignItems: "center",
           }}
         >
-          Kazier
-        </Typography>
-      </Box>
+          <Image src="/images/logo.png" alt="logo" width={60} height={60} />
+          <Typography
+            fontWeight={600}
+            sx={{
+              fontSize: "1.5rem",
+              marginLeft: "1.5rem",
+            }}
+          >
+            Kazier
+          </Typography>
+        </Box>
+      </ActiveLink>
       <Divider />
       <List
         sx={{
@@ -71,17 +84,19 @@ export default function Sidebar() {
         }}
       >
         {menus.map((menu, index) => (
-          <ListItem key={menu} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={menu.text} />
-            </ListItemButton>
+          <ListItem key={menu.link} disablePadding>
+            <ActiveLink href={menu.link}>
+              <ListItemButton>
+                <ListItemText primary={menu.text} />
+              </ListItemButton>
+            </ActiveLink>
           </ListItem>
         ))}
 
         <Divider />
 
         {nestedMenus.map((nestedMenu, index) => (
-          <React.Fragment key={nestedMenu}>
+          <React.Fragment key={nestedMenu.text}>
             <ListItem disablePadding>
               <ListItemButton onClick={() => openMenu(index)}>
                 <ListItemIcon>{nestedMenu.icon}</ListItemIcon>
@@ -95,10 +110,12 @@ export default function Sidebar() {
             <Collapse in={open[index]} timeout="auto" unmountOnExit>
               <List>
                 {nestedMenu.menus.map((menu) => (
-                  <ListItem key={menu} disablePadding>
-                    <ListItemButton disablePadding>
-                      <ListItemText inset primary={menu.text} />
-                    </ListItemButton>
+                  <ListItem key={menu.link} disablePadding>
+                    <ActiveLink href={menu.link}>
+                      <ListItemButton>
+                        <ListItemText primary={menu.text} />
+                      </ListItemButton>
+                    </ActiveLink>
                   </ListItem>
                 ))}
               </List>

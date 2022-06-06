@@ -10,12 +10,15 @@ export const nestedMenus = [
     menus: [
       {
         text: "Daftar Barang",
+        link: "/daftar-barang",
       },
       {
         text: "Kategori Barang",
+        link: "/kategori-barang",
       },
       {
         text: "Lihat Stok",
+        link: "/lihat-stok",
       },
     ],
   },
@@ -25,9 +28,11 @@ export const nestedMenus = [
     menus: [
       {
         text: "Riwayat Penjualan",
+        link: "/riwayat-penjualan",
       },
       {
         text: "Statistik Barang Terjual",
+        link: "/statistik-penjualan",
       },
     ],
   },
@@ -37,9 +42,11 @@ export const nestedMenus = [
     menus: [
       {
         text: "Riwayat Barang Masuk",
+        link: "/riwayat-masuk",
       },
       {
-        text: "Statistik Barang Terjual",
+        text: "Statistik Barang Masuik",
+        link: "/statistik-masuk",
       },
     ],
   },
