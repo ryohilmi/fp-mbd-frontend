@@ -4,8 +4,9 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
       const categories = await pool.query(`
-        SELECT * FROM transaksi_supplier
-        JOIN karyawan ON transaksi_supplier.kar_id = karyawan.kar_id
+        SELECT ts.*, karyawan.*, supplier.sup_nama FROM transaksi_supplier ts
+        JOIN karyawan ON ts.kar_id = karyawan.kar_id
+        JOIN supplier ON ts.sup_id = supplier.sup_id
       `);
       res.json(categories.rows);
     } catch (err) {
