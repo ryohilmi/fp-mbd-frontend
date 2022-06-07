@@ -20,39 +20,39 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function KategoriBarang() {
   const [open, setOpen] = useState(false);
-  const [tsId, setId] = useState(null);
+  const [tpId, setId] = useState(null);
   const { mutate } = useSWRConfig();
 
-  const { data: barang_masuks, error: barang_masukError } = useSWR(
-    "/api/barang-masuk",
+  const { data: transactions, error: transactionsError } = useSWR(
+    "/api/transaksi",
     fetcher
   );
 
-  const { data: barang_masukDetails, error: detailError } = useSWR(
-    tsId && `/api/kwitansi-supplier/${tsId}`,
+  const { data: transactionDetails, error: detailError } = useSWR(
+    tpId && `/api/kwitansi-pembeli/${tpId}`,
     fetcher
   );
 
   useEffect(() => {
-    console.log(barang_masukDetails);
-  }, [barang_masukDetails]);
+    console.log(transactionDetails);
+  }, [transactionDetails]);
 
   const columns = [
-    { field: "ts_id", headerName: "ID", flex: 0.2 },
+    { field: "tp_id", headerName: "ID", flex: 0.2 },
     {
-      field: "sup_nama",
+      field: "cust_nama",
       headerName: "Nama",
       flex: 1,
     },
     {
-      field: "ts_tanggal",
+      field: "tp_tanggal",
       headerName: "Tanggal",
       type: "date",
       flex: 1,
       valueGetter: ({ value }) => value && new Date(value),
     },
     {
-      field: "ts_total",
+      field: "tp_total",
       headerName: "Total",
       type: "number",
       flex: 1,
@@ -67,20 +67,20 @@ export default function KategoriBarang() {
       flex: 1,
     },
     {
-      field: "kj_harga_satuan",
+      field: "kb_harga_satuan",
       headerName: "Harga",
       type: "number",
       flex: 1,
       valueFormatter: (params) => currencyFormatter(params.value),
     },
     {
-      field: "kj_kuantitas",
+      field: "kb_kuantitas",
       headerName: "Jumlah",
       type: "number",
       flex: 1,
     },
     {
-      field: "kj_harga_beli",
+      field: "kb_harga_beli",
       headerName: "Harga",
       type: "number",
       flex: 1,
@@ -112,7 +112,7 @@ export default function KategoriBarang() {
     return formatter.format(val);
   };
 
-  if (barang_masukError) return <div>failed to load</div>;
+  if (transactionsError) return <div>failed to load</div>;
 
   return (
     <div className="container">
@@ -124,12 +124,12 @@ export default function KategoriBarang() {
         ) : ( */}
         <div className="content">
           <div className={styles.between}>
-            <h1 className={styles.header}>Riwayat Barang Masuk</h1>
+            <h1 className={styles.header}>Riwayat Transaksi Penjualan</h1>
           </div>
           <div className={styles.table}>
             <DataGrid
-              getRowId={(row) => row.ts_id}
-              rows={barang_masuks ?? []}
+              getRowId={(row) => row.tp_id}
+              rows={transactions ?? []}
               columns={columns}
               rowsPerPageOptions={[10]}
               onRowDoubleClick={handleDetail}
@@ -141,7 +141,7 @@ export default function KategoriBarang() {
             <div className={styles.dialogTable}>
               <DataGrid
                 getRowId={(row) => Math.random()}
-                rows={barang_masukDetails ?? []}
+                rows={transactionDetails ?? []}
                 columns={detailColumns}
                 rowsPerPageOptions={[10]}
               />
