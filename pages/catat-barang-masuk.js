@@ -46,7 +46,7 @@ export default function CatatBarangMasuk() {
       detail: buyItems,
     };
 
-    fetch("/api/supply", {
+    fetch("/api/barang-masuk", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
