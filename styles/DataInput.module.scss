@@ -22,6 +22,15 @@
   background: #004e7c;
 }
 
+.button2 {
+  background: #ffffff;
+  color: #004e7c;
+}
+.button2:hover{
+  background : #f0f0f0;
+  color: #004e7c;
+}
+
 .removeButton {
   background: rgb(184, 0, 0);
 }
@@ -79,6 +88,12 @@
 .between {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.between2 {
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
 }
 

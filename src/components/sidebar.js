@@ -20,6 +20,7 @@ import { useRouter } from "next/router";
 const drawerWidth = 250;
 
 const menus = [
+  { text: "Dashboard", link: "/dashboard" },
   { text: "Buat Penjualan", link: "/buat-penjualan" },
   { text: "Catat Barang Masuk", link: "/catat-barang-masuk" },
 ];
