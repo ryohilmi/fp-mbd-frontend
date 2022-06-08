@@ -67,7 +67,7 @@ export default function Sidebar() {
         >
           <Image src="/images/logo.png" alt="logo" width={60} height={60} />
           <Typography
-            fontWeight={600}
+            fontWeight={400}
             sx={{
               fontSize: "1.5rem",
               marginLeft: "1.5rem",
@@ -101,7 +101,7 @@ export default function Sidebar() {
               <ListItemButton onClick={() => openMenu(index)}>
                 <ListItemIcon>{nestedMenu.icon}</ListItemIcon>
                 <ListItemText
-                  primaryTypographyProps={{ fontWeight: 600 }}
+                  primaryTypographyProps={{ fontWeight: 500 }}
                   primary={nestedMenu.text}
                 />
                 {open[index] ? <ExpandLess /> : <ExpandMore />}
