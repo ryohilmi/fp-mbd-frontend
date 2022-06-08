@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  DialogContentText,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useForm, Controller } from "react-hook-form";
@@ -25,6 +26,7 @@ export default function CatatBarangMasuk() {
   const [rows, setRows] = useState([]);
   const [total, setTotal] = useState({ barang: 0, harga: 0 });
   const [open, setOpen] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
 
   const { data: suppliers } = useSWR("/api/supplier", fetcher);
   const { data: cashiers } = useSWR("/api/karyawan", fetcher);
@@ -55,7 +57,8 @@ export default function CatatBarangMasuk() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        setSuccessOpen(true);
+        setRows([]);
         setOpen(false);
       });
   };
@@ -296,6 +299,21 @@ export default function CatatBarangMasuk() {
               </Button>
             </DialogActions>
           </form>
+        </Dialog>
+        <Dialog
+          open={successOpen}
+          keepMounted
+          onClose={() => setSuccessOpen(false)}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Transaksi Berhasil disimpan
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setSuccessOpen(false)}>Tutup</Button>
+          </DialogActions>
         </Dialog>
       </main>
     </div>

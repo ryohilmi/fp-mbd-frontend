@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  DialogContentText,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useForm, Controller } from "react-hook-form";
@@ -30,6 +31,7 @@ export default function BuatPenjualan() {
   const [rows, setRows] = useState([]);
   const [total, setTotal] = useState({ barang: 0, harga: 0 });
   const [open, setOpen] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
 
   const { register, control, handleSubmit } = useForm();
 
@@ -53,6 +55,8 @@ export default function BuatPenjualan() {
     })
       .then((res) => res.json())
       .then((res) => {
+        setSuccessOpen(true);
+        setRows([]);
         setOpen(false);
       });
   };
@@ -290,6 +294,21 @@ export default function BuatPenjualan() {
               </Button>
             </DialogActions>
           </form>
+        </Dialog>
+        <Dialog
+          open={successOpen}
+          keepMounted
+          onClose={() => setSuccessOpen(false)}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Transaksi Berhasil disimpan
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setSuccessOpen(false)}>Tutup</Button>
+          </DialogActions>
         </Dialog>
       </main>
     </div>
