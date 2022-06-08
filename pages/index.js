@@ -1,5 +1,7 @@
 import Head from "next/head";
 import Sidebar from "../src/components/sidebar";
+import Card from "../src/components/Card";
+import styles from "../styles/Home.module.scss";
 
 export default function Home() {
   return (
@@ -13,7 +15,26 @@ export default function Home() {
       </Head>
       <Sidebar />
 
-      <main></main>
+      <main>
+        <h1 className={styles.header}>Dashboard</h1>
+        <div className={"flex " + styles.statCards}>
+          <Card blue>
+            <p>Total Keuntungan</p>
+            <p className={styles.textHighlight}>Rp. 120.000</p>
+            <p className={styles.subText}>vs kemarin 12%</p>
+          </Card>
+          <Card blue>
+            <p>Total Keuntungan</p>
+            <p className={styles.textHighlight}>Rp. 120.000</p>
+            <p className={styles.subText}>vs kemarin 12%</p>
+          </Card>
+          <Card>
+            <p>Total Keuntungan</p>
+            <p className={styles.textHighlight}>Rp. 120.000</p>
+            <p className={styles.subText}>vs kemarin 12%</p>
+          </Card>
+        </div>
+      </main>
     </div>
   );
 }

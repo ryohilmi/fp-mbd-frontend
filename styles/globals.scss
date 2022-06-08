@@ -24,8 +24,33 @@ a {
 main {
   margin-left: 250px;
   padding: 2rem;
+  color: rgb(31, 31, 31);
 
   h1 {
     font-size: 2.5rem;
   }
+}
+
+.flex {
+  display: flex;
+}
+
+.card {
+  width: 300px;
+  border-radius: 15px;
+  padding: 1.5rem 2rem;
+  font-size: 1.1rem;
+  font-family: "Poppins";
+  box-shadow: 5px 6px 17px -8px rgba(0, 0, 0, 0.33);
+  margin: 2rem 0;
+  color: #6d7d93;
+}
+
+.blueBg {
+  background: linear-gradient(
+    266deg,
+    rgba(0, 95, 150, 1) 0%,
+    rgba(0, 119, 187, 1) 100%
+  );
+  color: white;
 }
