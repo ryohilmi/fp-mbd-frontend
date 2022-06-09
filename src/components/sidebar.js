@@ -33,14 +33,6 @@ export default function Sidebar() {
     newOpen[index] = !open[index];
     setOpen(newOpen);
   };
-  console.log(router.asPath);
-
-  React.useEffect(() => {
-    console.log(router.asPath);
-    if (router.asPath) {
-      console.log(router.asPath);
-    }
-  });
 
   return (
     <Drawer
