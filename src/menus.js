@@ -26,10 +26,10 @@ export const nestedMenus = [
         text: "Riwayat Penjualan",
         link: "/riwayat-penjualan",
       },
-      {
-        text: "Statistik Barang Terjual",
-        link: "/statistik-penjualan",
-      },
+      // {
+      //   text: "Statistik Barang Terjual",
+      //   link: "/statistik-penjualan",
+      // },
     ],
   },
   {
@@ -40,10 +40,10 @@ export const nestedMenus = [
         text: "Riwayat Barang Masuk",
         link: "/riwayat-masuk",
       },
-      {
-        text: "Statistik Barang Masuik",
-        link: "/statistik-masuk",
-      },
+      // {
+      //   text: "Statistik Barang Masuik",
+      //   link: "/statistik-masuk",
+      // },
     ],
   },
   {
@@ -52,15 +52,15 @@ export const nestedMenus = [
     menus: [
       {
         text: "Customer",
-        link: "/customer"
+        link: "/customer",
       },
       {
         text: "Karyawan",
-        link: "/karyawan"
+        link: "/karyawan",
       },
       {
         text: "Supplier",
-        link: "/supplier"
+        link: "/supplier",
       },
     ],
   },
