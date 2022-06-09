@@ -1,9 +1,32 @@
 import Head from "next/head";
 import Sidebar from "../src/components/sidebar";
 import Card from "../src/components/Card";
+import Chart from "../src/components/Chart";
 import styles from "../styles/Home.module.scss";
+import useSWR, { useSWRConfig } from "swr";
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function Home() {
+  const { data: profit } = useSWR("/api/profit", fetcher);
+  const { data: statistikOmset } = useSWR("/api/statistik/omset", fetcher);
+  const { data: statistikTransaksi } = useSWR(
+    "/api/statistik/transaksi",
+    fetcher
+  );
+
+  const currencyFormatter = (val) => {
+    let formatter = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0,
+    });
+
+    console.log(val);
+
+    return formatter.format(val);
+  };
+
   return (
     <div>
       <Head>
@@ -18,21 +41,41 @@ export default function Home() {
       <main>
         <h1 className={styles.header}>Dashboard</h1>
         <div className={"flex " + styles.statCards}>
-          <Card blue>
-            <p>Total Keuntungan</p>
-            <p className={styles.textHighlight}>Rp. 120.000</p>
-            <p className={styles.subText}>vs kemarin 12%</p>
-          </Card>
-          <Card blue>
-            <p>Total Keuntungan</p>
-            <p className={styles.textHighlight}>Rp. 120.000</p>
-            <p className={styles.subText}>vs kemarin 12%</p>
-          </Card>
-          <Card>
-            <p>Total Keuntungan</p>
-            <p className={styles.textHighlight}>Rp. 120.000</p>
-            <p className={styles.subText}>vs kemarin 12%</p>
-          </Card>
+          {profit && (
+            <Card blue>
+              <p>Total Keuntungan</p>
+              <p className={styles.textHighlight}>
+                {currencyFormatter(profit[0].sum)}
+              </p>
+            </Card>
+          )}
+          {statistikOmset && statistikTransaksi && (
+            <>
+              <Card blue>
+                <p>Penjualan Hari ini</p>
+                <p className={styles.textHighlight}>
+                  {statistikOmset[0].penjualan_today ?? 0}
+                </p>
+                <p className={styles.subText}>
+                  vs kemarin{" "}
+                  {statistikOmset[0].persen_perubahan_omset_harian ?? 0}%
+                </p>
+              </Card>
+              <Card blue>
+                <p>Penjualan Hari ini</p>
+                <p className={styles.textHighlight}>
+                  {statistikTransaksi[0].penjualan_today ?? 0}
+                </p>
+                <p className={styles.subText}>
+                  vs kemarin {statistikTransaksi[0].persen_perubahan_orderan}%
+                </p>
+              </Card>
+            </>
+          )}
+        </div>
+
+        <div className={styles.chart}>
+          <Chart />
         </div>
       </main>
     </div>
