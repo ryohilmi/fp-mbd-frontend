@@ -22,8 +22,6 @@ export default function Home() {
       maximumFractionDigits: 0,
     });
 
-    console.log(val);
-
     return formatter.format(val);
   };
 
@@ -41,7 +39,7 @@ export default function Home() {
       <main>
         <h1 className={styles.header}>Dashboard</h1>
         <div className={"flex " + styles.statCards}>
-          {profit && (
+          {profit && profit[0] && (
             <Card blue>
               <p>Total Keuntungan</p>
               <p className={styles.textHighlight}>
